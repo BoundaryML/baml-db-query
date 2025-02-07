@@ -6,6 +6,8 @@ This repository contains demo code showcasing the BAML library. The demo demonst
 - Generate a SQL query based on the selected tables and columns.
 - Use chain-of-thought prompts to help the model decide which tables and columns are relevant.
 
+Video demo: [https://youtu.be/iBqTB_7Avt0](https://youtu.be/iBqTB_7Avt0)
+
 ## Overview
 
 There are two main components in this demo:

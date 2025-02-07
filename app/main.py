@@ -28,6 +28,7 @@ async def main():
                 "id": "unique user identifier",
                 "name": "user's full name",
                 "email": "user's email address",
+                "region": "user's region",
                 "created_at": "timestamp of user creation",
             },
         },
