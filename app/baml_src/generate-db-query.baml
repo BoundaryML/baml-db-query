@@ -8,10 +8,9 @@ class GeneratedQuery {
 
 function GenerateSQLQuery(
   userQuestion: string, 
-  relevantTables: TableMetadata[], 
   schemaDescription: string
 ) -> GeneratedQuery {
-  client GPT4
+  client GPT4o
   prompt #"
     Generate a SQL query to answer the user's question using only the provided relevant tables and columns.
     Ensure the query is efficient and follows SQL best practices.
@@ -22,11 +21,8 @@ function GenerateSQLQuery(
     {{ ctx.output_format }}
 
     User Question: {{ userQuestion }}
-    
-    Relevant Tables:
-    {{ relevantTables }}
 
-    Schema Details:
+    Tables:
     {{ schemaDescription }}
   "#
 }
@@ -38,16 +34,6 @@ test BasicQueryTest {
     userQuestion #"
       What are the top 10 most popular products in the database?
     "#
-    relevantTables [
-      {
-        tableName "products",
-        columns ["id", "name"],
-      },
-      {
-        tableName: "orders",
-        columns: ["product_id", "quantity"]
-      }
-    ]
     schemaDescription #"
       {
         "products": {

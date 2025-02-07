@@ -6,19 +6,27 @@ class TableMetadata {
 }
 
 template_string ChainOfThought #"
-  Before you answer, add your thinking in <think> </think> tags, to help you figure out why each table and column is relevant to the question.
+  Before you answer, add your thinking in <think> </think> tags to help you figure out why each table and column is relevant.
 "#
 
-function SelectRelevantTables(userQuestion: string, schemaDescription: string) -> TableMetadata[] {
+class IrrelevantQuestion {
+  reason string @description("Brief explanation of why the question is not relevant to the tables")
+}
+
+function SelectRelevantTables(userQuestion: string, schemaDescription: string) -> TableMetadata[] | IrrelevantQuestion {
   client GPT4o
   prompt #"
-    Given a JSON description of multiple database tables and their columns, select the most relevant tables and columns that would be needed to construct a SQL query.
+    Which of the tables and columns in the schema description are relevant to the user's question?
+    
+    Tables:
+    {{ schemaDescription }}
 
-    Only select tables and columns that are directly relevant. Explain briefly why each selected table is relevant.
-
+    Only select tables and columns that are directly relevant. 
     {{ ctx.output_format }}
+    Before answering, outline any relevant notes.
 
-    {{ _.role("user") }} {{ schemaDescription }}
+    {{ _.role("user") }}
+    {{ userQuestion }}
   "#
 }
 
